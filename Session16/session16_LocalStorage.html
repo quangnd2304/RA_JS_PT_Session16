@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Local Storage - WEB STORAGE API</title>
+</head>
+
+<body>
+    <script>
+        //LÀM VIỆC VỚI CÁC KIỂU DỮ LIỆU NGUYÊN THỦY - PRIMITIVE
+        // Lưu dữ liệu với key="studentName", value="Nguyễn Văn A"
+        //key: String
+        //value: datatype of javascript
+        localStorage.setItem("studentName", "Nguyễn Văn A");
+        localStorage.setItem("age", 20);
+        localStorage.setItem("sex", true);
+        // Lấy dữ liệu từ localStorage theo key
+        let studentName = localStorage.getItem("studentName");
+        console.log("Giá trị của studentName trong localStorage: ", studentName);
+        // Xóa item có key = "age" trong localStorage
+        localStorage.removeItem("age");
+        // Xóa tất cả dữ liệu trong localStorage
+        localStorage.clear();
+        //LÀM VIỆC VỚI CÁC KIỂU DỮ LIỆU THAM CHIẾU - NON_PRIMITIVE
+        //--> trước khi lưu ra localStorage --> tham chiếu chuyển sang kiểu JSON: JSON.stringify(value)
+        //--> Lấy dữ liệu --> chuyển từ JSON sang dữ liệu tham chiếu: JSON.parse("JSON STRING");
+        // Lưu trữ đối tượng book vào localStorage
+        let book = { "bookId": "B001", "bookName": "Công nghệ thông tin", "price": 50 };
+        localStorage.setItem("book", JSON.stringify(book));
+        // Lấy thông tin đối tượng book trong localStorage
+        let bookGet = JSON.parse(localStorage.getItem("book"));
+        console.log("Đối tượng lấy từ localStorage: ", bookGet);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Session Storage</title>
+</head>
+
+<body>
+    <script>
+        //Thêm item vào sessionStorage
+        sessionStorage.setItem("class", "JS-parttime-11");
+        //Lấy item từ sessionStorage
+        console.log("Item lấy từ sessionStorage:", sessionStorage.getItem("class"));
+        //Xóa item
+        sessionStorage.removeItem("class");
+        //Xóa hết dữ liệu sessionStorage
+        sessionStorage.clear();
+    </script>
+</body>
+
+</html>

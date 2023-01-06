@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // Khởi tạo mảng chứa các nhân viên
+        let arrEmployee = [];
+        //Nhập dữ liệu cho các nhân viên
+        let empNumber = parseInt(prompt("Nhập vào số nhân viên cần nhập: "));
+        for (let i = 0; i < empNumber; i++) {
+            //Nhập thông tin cho một nhân viên --> khởi tạo đối tượng nhân viên
+            let empNew = {};
+            let empName = prompt("Nhập vào tên nhân viên thứ " + (i + 1));
+            let salary = parseFloat(prompt("Nhập vào lương nhân viên thứ " + i));
+            //Khởi tạo thuộc tính empName của đối tượng empNew có giá trị bằng empName
+            empNew.empName = empName;
+            empNew.salary = salary;
+            arrEmployee.push(empNew);
+        }
+        //Viết hàm tính tổng lương của nhân viên
+        function getTotalSalary() {
+            let totalSalary = 0;
+            // Mảng
+            // forof: mỗi vòng lặp lấy ra 1 phần tử của mảng
+            // forin: mỗi vòng lặp lấy ra chỉ số phần tử của mảng
+            //ĐỐi tượng - object
+            //forin: mỗi vòng lặp lấy ra tên thuộc tính của đối tượng
+            for (const emp of arrEmployee) {
+                totalSalary += emp.salary;
+            }
+            return totalSalary;
+        }
+        //Thực hiện tính tổng lương
+        console.log("Tổng lương nhân viên là: ", getTotalSalary());
+    </script>
+</body>
+
+</html>

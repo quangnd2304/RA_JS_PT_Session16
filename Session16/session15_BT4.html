@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        // Khai báo đối tượng menu
+        let menu = { "width": 50, "height": 60, "title": "title menu" };
+        // Viết hàm nhân 2 các thuộc tính có kiểu dữ liệu là number
+        function doubleValueAttr(menu) {
+            // Duyệt các giá trị các thuộc tính của đối tượng
+            for (const key in menu) {
+                if (typeof (menu[key]) == 'number') {
+                    // Nhân 2 lên
+                    menu[key] = menu[key] * 2;
+                }
+            }
+            console.log("Đối tượng sau khi x2: ", menu);
+        }
+        doubleValueAttr(menu);
+    </script>
+</body>
+
+</html>

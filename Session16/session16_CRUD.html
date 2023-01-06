@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CRUD</title>
+</head>
+
+<body>
+    <form>
+        <input type="text" name="productId" id="productId" placeholder="Input Product Id" /><br>
+        <input type="text" name="productName" id="productName" placeholder="Input Product Name" /><br>
+        <input type="number" name="price" id="price" placeholder="Input Price" /><br>
+        <button id="btnCreate">Create</button>
+    </form>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>STT</th>
+                <th>Product ID</th>
+                <th>Product Name</th>
+                <th>Price</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody">
+
+        </tbody>
+    </table>
+    <script>
+        let btnCreate = document.getElementById("btnCreate");
+        btnCreate.addEventListener("click", function () {
+            // Kiểm tra trong listProduct đã có ID chưa
+            let productId = document.getElementById("productId").value;
+            let listProduct = JSON.parse(localStorage.getItem("listProduct"));
+            let exist = false;
+            if (listProduct != null) {
+                for (const product of listProduct) {
+                    if (product.productId == productId) {
+                        //Đã tồn tại ID
+                        exist = true;
+                        break;
+                    }
+                }
+            }
+            if (exist) {
+                //Đã tồn tại
+                editProduct();
+            } else {
+                createProduct();
+            }
+        });
+        // function thực hiện thêm mới 1 sản phẩm
+        function createProduct() {
+            //B1. lấy dữ liệu item listProduct từ localStorage
+            let listProduct = JSON.parse(localStorage.getItem("listProduct"));
+            if (listProduct == null) {
+                //Trên localStorage không tồn tại item có key = listProduct
+                listProduct = [];
+            }
+            //B2. Lấy dữ liệu người dùng nhập vào form
+            let productId = document.getElementById("productId").value;
+            let productName = document.getElementById("productName").value;
+            let price = parseFloat(document.getElementById("price").value);
+            //B3. Khởi tạo đối tượng product cần thêm mới
+            let productNew = { "productId": productId, "productName": productName, "price": price };
+            //B4. Thêm đối tượng productNew vào listProduct
+            listProduct.push(productNew);
+            //B5. Đè listProduct vào localStorage
+            localStorage.setItem("listProduct", JSON.stringify(listProduct));
+            //B6. gọi lại readListProduct
+            readListProduct();
+        }
+        function readListProduct() {
+            //B1. Lấy listProduct từ localStorage
+            let listProduct = JSON.parse(localStorage.getItem("listProduct"));
+            if (listProduct == null) {
+                listProduct = [];
+            }
+            //B2. Hiển thị dữ liệu listProduct vào tableBody
+            let tableBody = document.getElementById("tableBody");
+            tableBody.innerHTML = '';
+            listProduct.forEach((product, index) => {
+                //Hiển thị ra một sản phẩm trong tableBody
+                tableBody.innerHTML += `
+                <tr>
+                    <td>${index + 1}</td>
+                    <td>${product.productId}</td>
+                    <td>${product.productName}</td>
+                    <td>${product.price}</td>
+                    <td>
+                        <button onclick="updateProduct('${product.productId}')">Edit</button>
+                        <button onclick="deleteProduct('${product.productId}')">Delete</button>
+                    </td>
+                </tr>`
+            });
+        }
+        readListProduct();
+        function updateProduct(productId) {
+            //B1. Từ productId lấy ra được thông tin của sản phẩm cần cập nhật
+            // B1.1. Lấy dữ liệu listProduct từ localStorage
+            let listProduct = JSON.parse(localStorage.getItem("listProduct"));
+            // B1.2. Duyệt listProduct lấy ra sản phẩm cần cập nhật
+            let productUpdate = listProduct.filter(product => {
+                if (product.productId == productId) {
+                    return product;
+                }
+            })
+            //B2. Đẩy thông tin productUpdate lên Form để người dùng cập nhật
+            document.getElementById("productId").value = productUpdate[0].productId;
+            document.getElementById("productName").value = productUpdate[0].productName;
+            document.getElementById("price").value = productUpdate[0].price;
+        }
+        function editProduct() {
+            //B1. Lấy dữ liệu từ localStorage
+            let listProduct = JSON.parse(localStorage.getItem("listProduct"));
+            // B2. Lấy dữ liệu sản phẩm cần cập nhật trên form
+            let productId = document.getElementById("productId").value;
+            let productName = document.getElementById("productName").value;
+            let price = parseFloat(document.getElementById("price").value);
+            //B4. Tìm và cập nhật đối tượng trong listProduct
+            let listProductUpdate = listProduct.map(product => {
+                if (product.productId == productId) {
+                    product.productName = productName;
+                    product.price = price;
+                }
+                return product;
+            });
+            //B5: Đè listProductUpdate vào trong localStorage
+            localStorage.setItem("listProduct", JSON.stringify(listProductUpdate));
+            //B6. gọi readListProduct() để lấy dữ liệu từ localStorage hiển thị trên table
+            readListProduct();
+        }
+
+        function deleteProduct(productId) {
+            //B1. Lấy dữ liệu từ localStorage
+            let listProduct = JSON.parse(localStorage.getItem("listProduct"));
+            //B2. Tìm phần tử productId trong listProduct để xóa
+            for (let i = 0; i < listProduct.length; i++) {
+                if (listProduct[i].productId == productId) {
+                    listProduct.splice(i, 1);
+                    break;
+                }
+            }
+            //B3. Đè listProduct vào localStorage
+            localStorage.setItem("listProduct", JSON.stringify(listProduct));
+            //B4. gọi readListProduct() để lấy dữ liệu từ localStorage hiển thị trên table
+            readListProduct();
+        }
+    </script>
+</body>
+
+</html>
